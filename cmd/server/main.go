@@ -33,33 +33,33 @@ func main() {
 	flag.StringVar(&configPath, "config", "", "Path to configuration file")
 	flag.IntVar(&concurrency, "concurrency", 10, "Maximum number of concurrent tasks")
 	flag.Parse()
-	
+
 	// Load configuration from file and/or environment variables
 	cfg, err := config.LoadConfig(configPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error loading configuration: %v\n", err)
 		os.Exit(1)
 	}
-	
+
 	// Validate configuration
 	if err := cfg.Validate(); err != nil {
 		fmt.Fprintf(os.Stderr, "Invalid configuration: %v\n", err)
 		os.Exit(1)
 	}
-	
+
 	// Command line flags take precedence over config file/env vars
 	if flag.CommandLine.Changed("port") {
 		cfg.Server.Port = port
 	} else {
 		port = cfg.Server.Port
 	}
-	
+
 	if flag.CommandLine.Changed("v") {
 		cfg.Logging.Level = logLevel
 	} else {
 		logLevel = cfg.Logging.Level
 	}
-	
+
 	if flag.CommandLine.Changed("concurrency") {
 		cfg.Processing.MaxConcurrent = concurrency
 	} else {
