@@ -22,6 +22,9 @@ func TestWorkerPool_Start(t *testing.T) {
 	// Start the pool
 	pool.Start()
 
+	// Need to give the worker pool time to start all workers
+	time.Sleep(100 * time.Millisecond)
+	
 	// Check metrics after starting
 	metrics := pool.GetMetrics()
 	workerMetrics := metrics["workers"].(map[string]interface{})

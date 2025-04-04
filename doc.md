@@ -3354,12 +3354,9 @@ if err := cfg.Validate(); err != nil {
     os.Exit(1)
 }
 
-// Command line flags take precedence
-if flag.CommandLine.Changed("port") {
-    cfg.Server.Port = port
-} else {
-    port = cfg.Server.Port
-}
+// Command-line specified values take precedence
+// Simply override config values with flag values
+cfg.Server.Port = port
 ```
 
 ### Configuration in Kubernetes

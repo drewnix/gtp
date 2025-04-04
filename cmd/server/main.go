@@ -47,24 +47,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Command line flags take precedence over config file/env vars
-	if flag.CommandLine.Changed("port") {
-		cfg.Server.Port = port
-	} else {
-		port = cfg.Server.Port
-	}
-
-	if flag.CommandLine.Changed("v") {
-		cfg.Logging.Level = logLevel
-	} else {
-		logLevel = cfg.Logging.Level
-	}
-
-	if flag.CommandLine.Changed("concurrency") {
-		cfg.Processing.MaxConcurrent = concurrency
-	} else {
-		concurrency = cfg.Processing.MaxConcurrent
-	}
+	// Set priority for configuration
+	// Command-line specified values (through flags) take precedence over
+	// config/env values
+	cfg.Server.Port = port
+	cfg.Logging.Level = logLevel
+	cfg.Processing.MaxConcurrent = concurrency
 
 	// Initialize structured logging
 	// This mirrors how Kubernetes components configure logging
